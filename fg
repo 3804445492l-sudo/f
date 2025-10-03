@@ -29281,6 +29281,346 @@ updateButtonStates()
 
 end)
 
+tool:Button("noclip",function()
+        local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+player.CharacterAdded:Connect(function(newChar)
+	character = newChar
+end)
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "UtilityGui"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = player:WaitForChild("PlayerGui")
+
+local uiListLayout = Instance.new("UIListLayout")
+uiListLayout.FillDirection = Enum.FillDirection.Horizontal
+uiListLayout.Padding = UDim.new(0, 10)
+uiListLayout.Parent = screenGui
+
+local function createButton(name, color)
+	local button = Instance.new("TextButton")
+	button.Size = UDim2.new(0, 200, 0, 40)
+	button.BackgroundColor3 = color
+	button.TextColor3 = Color3.new(1, 1, 1)
+	button.Font = Enum.Font.GothamBold
+	button.TextSize = 18
+	button.Text = name
+	button.Name = name
+	button.Parent = screenGui
+	button.BorderSizePixel = 0
+	button.BackgroundTransparency = 0.1
+	return button
+end
+
+local noclipButton = createButton("Enable Noclip", Color3.fromRGB(75, 0, 130))
+local toolsButton = createButton("Enable Keep Tools", Color3.fromRGB(0, 120, 200))
+
+local noclipEnabled = false
+noclipButton.MouseButton1Click:Connect(function()
+	noclipEnabled = not noclipEnabled
+	noclipButton.Text = noclipEnabled and "Disable Noclip" or "Enable Noclip"
+end)
+
+RunService.Stepped:Connect(function()
+	if noclipEnabled and character then
+		for _, part in ipairs(character:GetDescendants()) do
+			if part:IsA("BasePart") then
+				part.CanCollide = false
+			end
+		end
+	end
+end)
+
+local keepToolsEnabled = false
+local savedTools = {}
+
+toolsButton.MouseButton1Click:Connect(function()
+	keepToolsEnabled = not keepToolsEnabled
+	toolsButton.Text = keepToolsEnabled and "Disable Keep Tools" or "Enable Keep Tools"
+
+	if keepToolsEnabled then
+		-- snapshot tools from StarterPack
+		savedTools = {}
+		for _, tool in ipairs(player:WaitForChild("StarterPack"):GetChildren()) do
+			if tool:IsA("Tool") then
+				table.insert(savedTools, tool.Name)
+			end
+		end
+	end
+end)
+
+RunService.Heartbeat:Connect(function()
+	if keepToolsEnabled and #savedTools > 0 then
+		local backpack = player:FindFirstChild("Backpack")
+		local starterPack = player:FindFirstChild("StarterPack")
+		local starterGear = player:FindFirstChild("StarterGear")
+
+		if backpack and starterPack and starterGear then
+			for _, toolName in ipairs(savedTools) do
+				-- Check if tool missing in Backpack
+				if not backpack:FindFirstChild(toolName) then
+					local spTool = starterPack:FindFirstChild(toolName)
+					if spTool then
+						local clone = spTool:Clone()
+						clone.Parent = backpack
+					end
+				end
+
+				-- Ensure StarterGear also has it
+				if not starterGear:FindFirstChild(toolName) then
+					local spTool = starterPack:FindFirstChild(toolName)
+					if spTool then
+						local clone = spTool:Clone()
+						clone.Parent = starterGear
+					end
+				end
+			end
+		end
+	end
+end)
+
+-- Re-apply saved tools after respawn
+player.CharacterAdded:Connect(function(newChar)
+	character = newChar
+	if keepToolsEnabled and #savedTools > 0 then
+		task.wait(1) -- wait for respawn to finish
+		local backpack = player:WaitForChild("Backpack")
+		for _, toolName in ipairs(savedTools) do
+			if not backpack:FindFirstChild(toolName) then
+				local spTool = player.StarterPack:FindFirstChild(toolName)
+				if spTool then
+					local clone = spTool:Clone()
+					clone.Parent = backpack
+				end
+			end
+		end
+	end
+end)
+
+end)
+
+tool:Button("99",function()
+       --[[
+	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
+]]
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Filipp947/LightHub/refs/heads/main/99nightsintheforestloader.lua"))()
+
+end)
+
+tool:Button("Phantom Client Hub",function()
+        loadstring(game:HttpGet("https://obj.wearedevs.net/207175/scripts/Phantom%20Client%20Hub%20Brookhaven%20RP.lua"))()
+end)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+local creds = window:Tab("注入器",'6035145364')
+
+local tool = creds:section("脚本",true)
+
+tool:Button("jj",function()
+        loadstring(game:HttpGet("https://obj.wearedevs.net/2/scripts/JJSploit-Android.lua"))()
+
+end)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 local fps = fps:section("fps ping",true)
